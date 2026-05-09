@@ -1,0 +1,200 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Donate Africa Mobile</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Cairo:wght@400;700;900&display=swap');
+        body { background: #050505; color: #fff; font-family: 'Cairo', sans-serif; margin: 0; padding: 0; }
+        
+        /* ضبط مقاس الهاتف */
+        .mobile-container { max-width: 450px; margin: 0 auto; min-height: 100vh; position: relative; background: #000; padding-bottom: 80px; }
+        
+        .glass { background: rgba(255, 255, 255, 0.03); backdrop-filter: blur(15px); border: 1px solid rgba(255, 255, 255, 0.05); border-radius: 25px; }
+        .hidden-section { display: none; }
+        .neon-green { color: #00FF88; text-shadow: 0 0 10px rgba(0, 255, 136, 0.2); }
+        
+        /* القائمة السفلية */
+        .bottom-nav { position: fixed; bottom: 0; width: 100%; max-width: 450px; background: rgba(10, 10, 10, 0.95); border-top: 1px solid #1a1a1a; display: flex; justify-content: space-around; padding: 15px 0; z-index: 1000; }
+        .nav-item { color: #555; font-size: 20px; cursor: pointer; transition: 0.3s; }
+        .nav-item.active { color: #00FF88; }
+
+        input, textarea { background: #111 !important; border: 1px solid #222 !important; color: #fff !important; padding: 12px !important; border-radius: 12px !important; width: 100%; outline: none; margin-bottom: 10px; }
+        .post-card { background: #0a0a0a; border: 1px solid #151515; border-radius: 20px; margin-bottom: 20px; overflow: hidden; }
+    </style>
+</head>
+<body>
+
+<div class="mobile-container">
+    
+    <section id="page_Gateway" class="p-6 flex flex-col items-center justify-center min-h-screen">
+        <div class="text-center mb-10">
+            <h1 class="text-4xl font-black italic mb-2 tracking-tighter">DONATE <span class="neon-green">AFRICA</span></h1>
+            <p class="text-[10px] text-gray-500 uppercase tracking-widest">Global Payout Terminal</p>
+        </div>
+        <div class="w-full space-y-4">
+            <div onclick="showPage('page_Login')" class="glass p-6 flex items-center justify-between cursor-pointer">
+                <span>تسجيل دخول</span><i class="fa-solid fa-right-to-bracket text-emerald-500"></i>
+            </div>
+            <div onclick="showPage('page_Register')" class="glass p-6 flex items-center justify-between cursor-pointer">
+                <span>إنشاء حساب جديد</span><i class="fa-solid fa-user-plus text-gray-500"></i>
+            </div>
+            <div onclick="showPage('page_RootLogin')" class="glass p-6 border-red-500/20 bg-red-500/5 flex items-center justify-between cursor-pointer">
+                <span class="text-red-500 font-bold">المنشئ الأساسي (Root)</span><i class="fa-solid fa-shield-virus text-red-500"></i>
+            </div>
+        </div>
+    </section>
+
+    <section id="page_RootLogin" class="p-6 hidden-section">
+        <div class="mt-20 glass p-8">
+            <h2 class="text-xl font-bold mb-6 text-center text-red-500">Master Authentication</h2>
+            <input id="rootEmail" type="text" placeholder="البريد السيادي">
+            <input id="rootPass" type="password" placeholder="كلمة المرور">
+            <button onclick="handleRootLogin()" class="w-full bg-red-600 p-4 rounded-xl font-bold">تحقق ودخول</button>
+        </div>
+    </section>
+
+    <section id="page_Feed" class="p-4 hidden-section">
+        <div class="flex justify-between items-center mb-6 px-2">
+            <h2 class="text-xl font-black">اكتشف التبرعات</h2>
+            <i class="fa-solid fa-bell text-gray-500"></i>
+        </div>
+        
+        <div id="postsContainer">
+            <div class="post-card">
+                <div class="p-4 flex items-center gap-3">
+                    <img id="display_admin_img" src="https://ui-avatars.com/api/?name=Admin&background=00FF88&color=000" class="w-10 h-10 rounded-full">
+                    <div>
+                        <h4 id="display_admin_name" class="text-sm font-bold">المنشئ الأساسي</h4>
+                        <p class="text-[10px] text-gray-500">منذ 2 دقيقة</p>
+                    </div>
+                </div>
+                <div class="px-4 pb-4">
+                    <p class="text-sm text-gray-300 mb-3">نعمل على إيصال المساعدات المالية للمناطق المتضررة. تبرع الآن عبر بوابة 3D.</p>
+                    <div class="w-full h-48 bg-gray-900 rounded-xl mb-4 overflow-hidden">
+                        <img src="https://images.unsplash.com/photo-1488521787991-ed7bbaae773c?auto=format&fit=crop&w=500&q=80" class="w-full h-full object-cover opacity-50">
+                    </div>
+                    <button onclick="showPage('page_Pay')" class="w-full py-3 bg-emerald-600 rounded-xl text-xs font-bold">تبرع الآن بالبطاقة البنكية</button>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <section id="page_AdminProfile" class="p-6 hidden-section">
+        <div class="text-center mb-8">
+            <div class="relative inline-block">
+                <img id="adminProfileImg" src="https://ui-avatars.com/api/?name=Admin&background=00FF88&color=000" class="w-24 h-24 rounded-full border-4 border-emerald-500/20 mx-auto">
+                <label class="absolute bottom-0 right-0 bg-emerald-500 p-2 rounded-full cursor-pointer"><i class="fa-solid fa-camera text-black text-xs"></i><input type="file" class="hidden"></label>
+            </div>
+            <h2 id="adminNameTitle" class="text-xl font-bold mt-4">المنشئ الأساسي</h2>
+            <p class="text-[10px] text-gray-500">حساب موثق بنكياً</p>
+        </div>
+
+        <div class="glass p-6 mb-6">
+            <h3 class="text-xs font-bold mb-4 neon-green uppercase">تعديل بيانات الظهور</h3>
+            <input id="newAdminName" type="text" placeholder="اسم العرض الجديد">
+            <textarea id="postContent" placeholder="اكتب منشور تبرع جديد..."></textarea>
+            <button onclick="updateProfile()" class="w-full bg-white text-black py-3 rounded-xl font-bold text-xs">نشر وتحديث</button>
+        </div>
+
+        <div class="glass p-6 border-emerald-500/30">
+            <h3 class="text-xs font-bold mb-4 text-emerald-500 uppercase">تفعيل بوابة الدفع (3D GATE)</h3>
+            <p class="text-[9px] text-gray-500 mb-4 italic">أدخل شفرة التفعيل لتشغيل محفظة البطاقات البنكية</p>
+            <input id="activationCode" type="password" placeholder="أدخل كود التفعيل المشفر">
+            <button onclick="activateGateway()" class="w-full bg-emerald-600 text-white py-3 rounded-xl font-bold text-xs">تفعيل البوابة الآن</button>
+        </div>
+    </section>
+
+    <section id="page_Pay" class="p-6 hidden-section">
+        <div class="text-center mb-10">
+            <i class="fa-solid fa-credit-card text-5xl text-emerald-500 mb-4"></i>
+            <h2 class="text-xl font-black">بوابة الدفع العالمية</h2>
+            <p class="text-[10px] text-gray-500 uppercase tracking-widest">Secure 3D-Gate Protocol</p>
+        </div>
+
+        <div id="payoutForm" class="opacity-20 pointer-events-none">
+            <div class="glass p-6 mb-4">
+                <label class="text-[10px] text-gray-500 block mb-2">رقم البطاقة</p>
+                <input type="text" placeholder="**** **** **** ****">
+                <div class="grid grid-cols-2 gap-4">
+                    <input type="text" placeholder="MM/YY">
+                    <input type="text" placeholder="CVV">
+                </div>
+            </div>
+            <button class="w-full bg-emerald-500 text-black py-4 rounded-xl font-bold shadow-lg">تأكيد التبرع</button>
+            <div class="mt-6 flex justify-center gap-4 opacity-30">
+                <i class="fa-brands fa-cc-visa text-2xl"></i>
+                <i class="fa-brands fa-cc-mastercard text-2xl"></i>
+            </div>
+        </div>
+        <div id="lockMessage" class="text-center mt-4">
+            <p class="text-xs text-red-500 bg-red-500/10 p-3 rounded-lg border border-red-500/20">بوابة الدفع معطلة حالياً. بانتظار تفعيل المنشئ الأساسي.</p>
+        </div>
+    </section>
+
+    <nav id="mainNav" class="bottom-nav hidden-section">
+        <div onclick="showPage('page_Feed')" class="nav-item active"><i class="fa-solid fa-house"></i></div>
+        <div onclick="showPage('page_Pay')" class="nav-item"><i class="fa-solid fa-wallet"></i></div>
+        <div onclick="showPage('page_AdminProfile')" class="nav-item"><i class="fa-solid fa-user-gear"></i></div>
+        <div onclick="location.reload()" class="nav-item"><i class="fa-solid fa-power-off text-red-900"></i></div>
+    </nav>
+
+</div>
+
+<script>
+    const CONFIG = {
+        ROOT_ID: "auth.terminal-gate.091@secure-africa.net",
+        ROOT_PW: "AX-7700_Zq#Alpha_Admin_99!!",
+        BOOT_KEY: "AFRICA-7721-SECURE-KEY"
+    };
+
+    function showPage(pageID) {
+        document.querySelectorAll('section').forEach(s => s.classList.add('hidden-section'));
+        document.getElementById(pageID).classList.remove('hidden-section');
+        
+        // تحديث حالة القائمة السفلية
+        if(pageID !== 'page_Gateway' && pageID !== 'page_RootLogin') {
+            document.getElementById('mainNav').classList.remove('hidden-section');
+        } else {
+            document.getElementById('mainNav').classList.add('hidden-section');
+        }
+        window.scrollTo(0,0);
+    }
+
+    function handleRootLogin() {
+        const email = document.getElementById('rootEmail').value;
+        const pass = document.getElementById('rootPass').value;
+        if(email === CONFIG.ROOT_ID && pass === CONFIG.ROOT_PW) {
+            alert("مرحباً بك أيها المنشئ. تم الدخول بنجاح.");
+            showPage('page_AdminProfile');
+        } else {
+            alert("خطأ في بيانات الدخول السيادية!");
+        }
+    }
+
+    function updateProfile() {
+        const name = document.getElementById('newAdminName').value;
+        if(name) {
+            document.getElementById('adminNameTitle').innerText = name;
+            document.getElementById('display_admin_name').innerText = name;
+            alert("تم تحديث الملف الشخصي ونشر المنشور الجديد.");
+        }
+    }
+
+    function activateGateway() {
+        const key = document.getElementById('activationCode').value;
+        if(key === CONFIG.BOOT_KEY) {
+            alert("تم قبول الكود المشفر. بوابة الدفع 3D فعالة الآن!");
+            document.getElementById('payoutForm').classList.remove('opacity-20', 'pointer-events-none');
+            document.getElementById('lockMessage').innerHTML = '<p class="text-xs text-emerald-500 bg-emerald-500/10 p-3 rounded-lg border border-emerald-500/20 italic">Global Payment Gateway Active: READY TO RECEIVE PAYMENTS</p>';
+        } else {
+            alert("كود تفعيل خاطئ!");
+        }
+    }
+</script>
+
+</body>
+</html>
